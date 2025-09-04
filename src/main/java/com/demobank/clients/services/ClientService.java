@@ -5,6 +5,7 @@ import com.demobank.clients.dtos.ClientResponseDTO;
 import com.demobank.clients.dtos.Query;
 import com.demobank.clients.entities.Client;
 import com.demobank.clients.repositories.ClientRepository;
+import com.demobank.clients.services.exceptions.ClientNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClientService {
-    private ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
     public ClientService(final ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
@@ -31,6 +32,42 @@ public class ClientService {
         return clientGetResponseDTO;
     }
 
+    public ClientResponseDTO findById(final String clientId) {
+        Client client = clientRepository.findByClientId(clientId);
+        if (client == null) {
+            throw new ClientNotFoundException(clientId);
+        }
+        return mapToClientResponseDTO(client);
+    }
+
+    public ClientResponseDTO create(final ClientResponseDTO clientResponseDTO) {
+        Client client = clientRepository.save(mapToClient(clientResponseDTO));
+        return mapToClientResponseDTO(client);
+    }
+
+    public ClientResponseDTO update(final String clientId,
+                                    final ClientResponseDTO clientResponseDTO) {
+        Client receivedClient = clientRepository.findByClientId(clientId);
+        if (receivedClient == null) {
+            throw new ClientNotFoundException(clientId);
+        }
+        receivedClient.setPersonId(receivedClient.getPersonId());
+        receivedClient.setClientId(receivedClient.getClientId());
+        Client client = clientRepository.save(mapToClient(clientResponseDTO));
+        return mapToClientResponseDTO(client);
+    }
+
+    public ClientResponseDTO delete(final String clientId) {
+        Client receivedClient = clientRepository.findByClientId(clientId);
+        if (receivedClient == null) {
+            throw new ClientNotFoundException(clientId);
+        }
+        receivedClient.setPersonId(receivedClient.getPersonId());
+        receivedClient.setClientId(receivedClient.getClientId());
+        clientRepository.delete(receivedClient);
+        return mapToClientResponseDTO(receivedClient);
+    }
+
     private ClientResponseDTO mapToClientResponseDTO(final Client client) {
         ClientResponseDTO clientResponseDTO = new ClientResponseDTO();
         clientResponseDTO.setClientId(client.getClientId());
@@ -42,5 +79,18 @@ public class ClientService {
         clientResponseDTO.setPhoneNumber(client.getPhoneNumber());
         clientResponseDTO.setStatus(client.getStatus());
         return clientResponseDTO;
+    }
+
+    private Client mapToClient(final ClientResponseDTO clientResponseDTO) {
+        Client client = new Client();
+        client.setClientId(clientResponseDTO.getClientId());
+        client.setFirstName(clientResponseDTO.getFirstName());
+        client.setLastName(clientResponseDTO.getLastName());
+        client.setBirthdate(clientResponseDTO.getBirthdate());
+        client.setGender(clientResponseDTO.getGender());
+        client.setAddress(clientResponseDTO.getAddress());
+        client.setPhoneNumber(clientResponseDTO.getPhoneNumber());
+        client.setStatus(clientResponseDTO.getStatus());
+        return client;
     }
 }

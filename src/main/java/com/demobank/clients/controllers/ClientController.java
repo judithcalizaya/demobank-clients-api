@@ -24,7 +24,24 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ClientResponseDTO getClient(@PathVariable("id") String id) {
-        System.out.println(id);
-        return new ClientResponseDTO();
+        return this.clientService.findById(id);
+    }
+
+    @PostMapping
+    public ClientResponseDTO create(@RequestBody ClientResponseDTO clientResponseDTO) {
+        return this.clientService.create(clientResponseDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public ClientResponseDTO update(
+            @PathVariable("id") String id,
+            @RequestBody ClientResponseDTO clientResponseDTO) {
+        return this.clientService.update(id, clientResponseDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public ClientResponseDTO delete(
+            @PathVariable("id") String id) {
+        return this.clientService.delete(id);
     }
 }
