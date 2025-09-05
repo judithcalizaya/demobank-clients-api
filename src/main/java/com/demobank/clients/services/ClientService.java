@@ -70,27 +70,31 @@ public class ClientService {
 
     private ClientResponseDTO mapToClientResponseDTO(final Client client) {
         ClientResponseDTO clientResponseDTO = new ClientResponseDTO();
-        clientResponseDTO.setClientId(client.getClientId());
         clientResponseDTO.setFirstName(client.getFirstName());
         clientResponseDTO.setLastName(client.getLastName());
+        clientResponseDTO.setNationalId(client.getNationalId());
         clientResponseDTO.setBirthdate(client.getBirthdate());
         clientResponseDTO.setGender(client.getGender());
         clientResponseDTO.setAddress(client.getAddress());
         clientResponseDTO.setPhoneNumber(client.getPhoneNumber());
+        clientResponseDTO.setClientId(client.getClientId());
+        clientResponseDTO.setPassword(client.getPassword());
         clientResponseDTO.setStatus(client.getStatus());
         return clientResponseDTO;
     }
 
     private Client mapToClient(final ClientResponseDTO clientResponseDTO) {
         Client client = new Client();
-        client.setClientId(clientResponseDTO.getClientId());
         client.setFirstName(clientResponseDTO.getFirstName());
         client.setLastName(clientResponseDTO.getLastName());
+        client.setNationalId(clientResponseDTO.getNationalId());
         client.setBirthdate(clientResponseDTO.getBirthdate());
         client.setGender(clientResponseDTO.getGender());
         client.setAddress(clientResponseDTO.getAddress());
         client.setPhoneNumber(clientResponseDTO.getPhoneNumber());
-        client.setStatus(clientResponseDTO.getStatus());
+        client.setClientId(clientResponseDTO.getClientId());
+        client.setPassword(clientResponseDTO.getPassword());
+        client.setStatus(clientResponseDTO.isStatus());
         return client;
     }
 }

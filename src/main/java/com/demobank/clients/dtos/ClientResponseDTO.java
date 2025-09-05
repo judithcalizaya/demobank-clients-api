@@ -1,17 +1,44 @@
 package com.demobank.clients.dtos;
 
+import com.demobank.clients.entities.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
 
 public class ClientResponseDTO {
-    private String clientId;
+    @NotBlank @Size(max = 250)
     private String firstName;
+
+    @NotBlank @Size(max = 250)
     private String lastName;
-    private String idNumber;
+
+    @NotBlank @Size(max = 250)
+    private String nationalId;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @NotNull
+    @Past(message="birthdate must be in the past.")
     private Date birthdate;
-    private String gender;
+
+    @NotNull(message = "gender is required")
+    private Gender gender;
+
+    @NotBlank @Size(max = 250)
     private String address;
+
+    @NotBlank @Size(max = 250)
     private String phoneNumber;
-    private boolean status;
+
+    private String clientId;
+
+    @NotBlank
+    private String password;
+
+    private boolean status = true;
 
     public String getClientId() {
         return clientId;
@@ -34,12 +61,12 @@ public class ClientResponseDTO {
         this.lastName = lastName;
     }
 
-    public String getIdNumber() {
-        return idNumber;
+    public String getNationalId() {
+        return nationalId;
     }
 
-    public void setIdNumber(String idNumber) {
-        this.idNumber = idNumber;
+    public void setNationalId(String nationalId) {
+        this.nationalId = nationalId;
     }
 
     public Date getBirthdate() {
@@ -49,10 +76,10 @@ public class ClientResponseDTO {
         this.birthdate = birthdate;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
@@ -70,10 +97,17 @@ public class ClientResponseDTO {
         this.phoneNumber = phoneNumber;
     }
 
-    public boolean getStatus() {
-        return status;
+    public String getPassword() {
+        return password;
     }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public void setStatus(boolean status) {
         this.status = status;
+    }
+    public boolean isStatus() {
+        return status;
     }
 }

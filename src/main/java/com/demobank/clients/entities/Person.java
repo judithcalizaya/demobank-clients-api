@@ -10,12 +10,26 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private int personId;
+
+    @Column(nullable = false, length = 250)
     private String firstName;
+
+    @Column(nullable = false, length = 250)
     private String lastName;
+
+    @Column(nullable = false, length = 250)
     private String nationalId;
+
+    @Column(nullable = false)
     private Date birthdate;
-    private String gender;
+
+    @Column(nullable = false)
+    private Gender gender;
+
+    @Column(nullable = false, length = 250)
     private String address;
+
+    @Column(nullable = false, length = 250)
     private String phoneNumber;
 
     public int getPersonId() {
@@ -53,10 +67,10 @@ public class Person {
         this.birthdate = birthdate;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

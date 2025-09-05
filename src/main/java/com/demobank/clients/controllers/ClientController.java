@@ -3,8 +3,11 @@ package com.demobank.clients.controllers;
 import com.demobank.clients.dtos.ClientGetResponseDTO;
 import com.demobank.clients.dtos.ClientResponseDTO;
 import com.demobank.clients.services.ClientService;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Validated
 @RestController
 @RequestMapping("/api/v1/clients")
 public class ClientController {
@@ -28,7 +31,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public ClientResponseDTO create(@RequestBody ClientResponseDTO clientResponseDTO) {
+    public ClientResponseDTO create(@Valid @RequestBody ClientResponseDTO clientResponseDTO) {
         return this.clientService.create(clientResponseDTO);
     }
 
